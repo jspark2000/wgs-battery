@@ -59,13 +59,13 @@ const IntegrityTestSection: React.FC<Props> = ({ tempFileUrl }) => {
     if (result.no_duplicates && result.no_missing && result.valid_types) {
       return (
         <div className="w-full rounded-md bg-green-100/60 px-5 py-3 font-semibold text-green-600">
-          All files successfully passed integrity testing
+          정합성 테스트를 통과하였습니다
         </div>
       )
     } else {
       return (
         <div className="w-full rounded-md bg-red-100/60 px-5 py-3 font-semibold text-red-600">
-          Some test failed
+          일부 테스트가 실패하였습니다
         </div>
       )
     }
@@ -74,11 +74,8 @@ const IntegrityTestSection: React.FC<Props> = ({ tempFileUrl }) => {
   return (
     <div className="flex w-full flex-col py-5">
       <h2 className="mb-2 text-2xl font-semibold text-stone-800">
-        1. Data Integrity test
+        1. 데이터 전처리 및 정합성 테스트
       </h2>
-      <p className="text-xs text-stone-400">
-        데이터 전처리 여부 및 정합성 테스트
-      </p>
       {tempFileUrl && (
         <Button
           onClick={() => handleClick()}

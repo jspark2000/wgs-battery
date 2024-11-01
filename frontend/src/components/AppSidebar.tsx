@@ -52,34 +52,34 @@ export function AppSidebar() {
             src="./images/logo_2.png"
             className="my-5 h-14 w-auto object-contain"
           />
-          <h4 className="text-lg font-semibold">File and Settings</h4>
+          <h4 className="text-lg font-semibold">파일 관리 및 설정</h4>
 
           <div className="grid w-full max-w-sm items-center gap-1.5">
             <Label htmlFor="cur" className="text-xs font-normal">
-              Current Folder Path
+              현재 폴더 경로
             </Label>
             <Input id="cur" value={currentDIR} disabled />
           </div>
 
           <div className="grid w-full max-w-sm items-center gap-1.5">
             <Label htmlFor="folder_path" className="text-xs font-normal">
-              Change Folder Path
+              변경할 폴더 경로
             </Label>
             <Input
               id="folder_path"
               value={dir}
               onChange={(e) => setDir(e.target.value)}
             />
-            <div className="mt-1 grid w-full grid-cols-2 gap-1.5">
+            <div className="mt-1 grid w-full gap-1.5">
               <Button
                 className="text-xs font-semibold"
                 onClick={() => updateDataPath()}
               >
-                Update
+                변경하기
               </Button>
-              <Button className="text-xs font-semibold" variant={'outline'}>
+              {/* <Button className="text-xs font-semibold" variant={'outline'}>
                 Merge
-              </Button>
+              </Button> */}
             </div>
           </div>
 
@@ -87,7 +87,7 @@ export function AppSidebar() {
 
           <div className="grid w-full max-w-sm items-center gap-1.5">
             <Label htmlFor="files" className="text-xs font-normal">
-              Choose File from Current Folder
+              현재 폴더 내 파일 선택
             </Label>
             <Select
               value={selectedFile}
@@ -96,7 +96,7 @@ export function AppSidebar() {
               <SelectTrigger>
                 <SelectValue
                   placeholder={
-                    fileList.length > 0 ? 'Select File' : 'Folder is Empty'
+                    fileList.length > 0 ? '파일 선택' : '폴더가 비어있습니다'
                   }
                 />
               </SelectTrigger>
@@ -119,7 +119,7 @@ export function AppSidebar() {
 
           <div className="grid w-full max-w-sm items-center gap-1.5">
             <div className="col-span-full">
-              <Label className="mb-1.5 text-xs font-normal">Upload File</Label>
+              <Label className="mb-1.5 text-xs font-normal">파일 업로드</Label>
               <div className="mt-2 flex justify-center rounded-lg border border-stone-200 bg-white px-6 py-5">
                 <div className="text-center">
                   <DocumentArrowUpIcon
@@ -131,7 +131,7 @@ export function AppSidebar() {
                       htmlFor="file-upload"
                       className="relative cursor-pointer rounded-md bg-white font-semibold text-stone-600 hover:text-stone-500"
                     >
-                      <span>Select file</span>
+                      <span>파일 선택</span>
                       <input
                         id="file-upload"
                         name="file-upload"
@@ -139,11 +139,9 @@ export function AppSidebar() {
                         className="sr-only"
                       />
                     </label>
-                    <p className="pl-1 text-xs">or drag & drop</p>
+                    <p className="pl-1 text-xs">또는 드래그앤 드랍</p>
                   </div>
-                  <p className="text-xs leading-5 text-stone-400">
-                    up to 200MB
-                  </p>
+                  <p className="text-xs leading-5 text-stone-400">최대 200MB</p>
                 </div>
               </div>
             </div>
@@ -152,7 +150,7 @@ export function AppSidebar() {
           <SidebarSeparator />
 
           <div className="grid w-full max-w-sm items-center gap-3">
-            <Label className="mb-1.5 text-xs font-normal">Select Method</Label>
+            <Label className="mb-1.5 text-xs font-normal">분석 방법 선택</Label>
             <div className="flex items-center space-x-2">
               <Checkbox
                 className="rounded-sm"

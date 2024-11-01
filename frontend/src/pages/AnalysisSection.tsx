@@ -50,10 +50,10 @@ const AnalysisSection: React.FC<Props> = ({ tempFileUrl }) => {
   return (
     <div className="flex w-full flex-col py-5">
       <h2 className="mb-2 text-2xl font-semibold text-stone-800">
-        3. Data Analysis
+        3. 데이터 분석
       </h2>
       <p className="text-xs text-stone-400">
-        사이드바에서 분석 방법을 선택해주세요
+        사이드바에서 분석 방법을 선택 후 진행해주세요
       </p>
       {success && (
         <div className="mt-5 w-full rounded-md bg-green-100/60 px-5 py-3 font-semibold text-green-600">

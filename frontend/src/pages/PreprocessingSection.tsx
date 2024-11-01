@@ -1,13 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { DataTable } from '@/components/ui/data-table'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select'
-import { downloadCSV, preprocessingData } from '@/lib/actions'
+import { preprocessingData } from '@/lib/actions'
 import type { RootState } from '@/store'
 import { setCsvColumns } from '@/store/setting-state-slice'
 import type { ProcessedData } from '@/types'
@@ -42,31 +35,17 @@ const PreprocessingSection: React.FC<Props> = ({ setTempFileUrl }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentFILE])
 
-  const handleClick = async (dataPath: string) => {
-    await downloadCSV(dataPath)
-  }
-
   return (
     <div className="grid w-full grid-cols-2 gap-x-3 gap-y-4 pt-10">
       <div className="col-span-2 flex justify-between">
-        <h1 className="text-xl font-semibold text-stone-950">Preprocessing</h1>
-        <Select defaultValue="dropna">
-          <SelectTrigger className="w-[180px]">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="dropna">dropna</SelectItem>
-            <SelectItem value="interpolation">interpolation</SelectItem>
-          </SelectContent>
-        </Select>
+        <h1 className="text-xl font-semibold text-stone-950">
+          Raw 데이터 확인
+        </h1>
       </div>
 
       {data && (
         <>
           <div>
-            <h2 className="pb-5 text-lg font-semibold text-zinc-400">
-              Raw Data
-            </h2>
             <DataTable
               columns={data.origin.columns.map((column) => {
                 return { header: column, accessorKey: column }
@@ -77,27 +56,6 @@ const PreprocessingSection: React.FC<Props> = ({ setTempFileUrl }) => {
               rows: {data.origin.shape[0]}, columns: {data.origin.shape[1]}
             </p>
             <Button variant={'outline'}>Download CSV</Button>
-          </div>
-          <div>
-            <h2 className="pb-5 text-lg font-semibold text-zinc-400">
-              Processed Data
-            </h2>
-            <DataTable
-              columns={data.origin.columns.map((column) => {
-                return { header: column, accessorKey: column }
-              })}
-              data={data.origin.rows}
-            />
-            <p className="pb-3 pt-5">
-              rows: {data.processed.shape[0]}, columns:{' '}
-              {data.processed.shape[1]}
-            </p>
-            <Button
-              variant={'outline'}
-              onClick={() => handleClick(data.temp_file_name)}
-            >
-              Download CSV
-            </Button>
           </div>
         </>
       )}

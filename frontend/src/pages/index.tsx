@@ -18,7 +18,7 @@ export default function MainPage() {
         WGS Data Mining
       </h1>
       <p className="mt-4 text-center text-sm italic text-stone-400">
-        Data Processing and Analysis Application
+        데이터 전처리 및 분석 어플리케이션
       </p>
       <PreprocessingSection setTempFileUrl={setTempFileUrl} />
       <Separator className="mt-10" />

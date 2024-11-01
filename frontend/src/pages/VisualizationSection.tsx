@@ -70,9 +70,8 @@ const VisualizationSection: React.FC<Props> = ({ tempFileUrl }) => {
   return (
     <div className="flex w-full flex-col py-5">
       <h2 className="mb-2 text-2xl font-semibold text-stone-800">
-        2. Data Visualization
+        2. 데이터 시각화
       </h2>
-      <p className="text-xs text-stone-400">데이터 시각화</p>
       {tempFileUrl && (
         <div className="grid grid-cols-2 gap-x-2 gap-y-1.5 pt-5">
           <Label className="text-xs text-stone-600">Chart Type</Label>
