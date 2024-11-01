@@ -28,3 +28,4 @@ tsconfig.node.tsbuild*
 # Python
 __pycache*
 .venv
+csv

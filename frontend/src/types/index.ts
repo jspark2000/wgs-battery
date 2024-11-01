@@ -49,3 +49,11 @@ export interface AnalysisOptions {
   use_pca: boolean
   use_autoencoder: boolean
 }
+
+export enum CSVEncodings {
+  CP949 = 'CP949',
+  EUCKR = 'EUCKR',
+  UTF16 = 'UTF16',
+  UTF8 = 'UTF8',
+  ASCII = 'ASCII'
+}
