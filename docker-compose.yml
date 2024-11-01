@@ -1,0 +1,18 @@
+services:
+  # backend:
+  #   container_name: dp-backend
+  #   build:
+  #     context: .
+  #     dockerfile: backend/Dockerfile
+  #   environment:
+  #     - PYTHONUNBUFFERED=1
+  #   ports:
+  #     - 7100:8000
+
+  frontend:
+    container_name: dp-frontend
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    ports:
+      - 7101:5173

@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "health-check"
+version = "0.1.0"
+description = ""
+authors = ["jspark2000 <idpjs2000@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11.8"
+black = "^24.10.0"
+flake8 = "^7.1.1"
+fastapi = "^0.115.2"
+uvicorn = "^0.32.0"
+pydantic = "^2.9.2"
+asyncio = "^3.4.3"
+scikit-learn = "^1.5.2"
+scipy = "^1.14.1"
+matplotlib = "^3.9.2"
+tensorflow = "^2.17.0"
+pandas = "^2.2.3"
+python-multipart = "^0.0.16"
+ipykernel = "^6.29.5"
+pre-commit = "^4.0.1"
+nbconvert = "^7.16.4"
+jupyter = "^1.1.1"
+jupyter-core = "^5.7.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

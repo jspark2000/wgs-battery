@@ -1,0 +1,10 @@
+backend/
+node_modules/
+pnpm-lock.yaml
+.pnpm-store/
+components.json
+**/.venv/**
+.venv/**
+**/venv/**
+venv/**
+poetry*

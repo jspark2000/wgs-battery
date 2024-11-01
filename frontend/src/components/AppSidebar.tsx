@@ -1,0 +1,224 @@
+import type { RootState } from '@/store'
+import {
+  setCurrentDIR,
+  setCurrentFile,
+  setSelectedMethods
+} from '@/store/setting-state-slice'
+import { DocumentArrowUpIcon } from '@heroicons/react/24/solid'
+import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Button } from './ui/button'
+import { Checkbox } from './ui/checkbox'
+import { Input } from './ui/input'
+import { Label } from './ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue
+} from './ui/select'
+import { Sidebar, SidebarContent, SidebarSeparator } from './ui/sidebar'
+
+export function AppSidebar() {
+  const dispatch = useDispatch()
+  const fileList = useSelector((state: RootState) => state.setting.fileList)
+  const currentDIR = useSelector((state: RootState) => state.setting.currentDIR)
+  const selectedMethods = useSelector(
+    (state: RootState) => state.setting.selectedMethods
+  )
+  const selectedFile = useSelector(
+    (state: RootState) => state.setting.currentFILE
+  )
+  const [dir, setDir] = useState('')
+  const updateDataPath = () => {
+    dispatch(setCurrentDIR({ currentDIR: dir }))
+    setDir('')
+  }
+  const updateSelectedFile = (filename: string) => {
+    dispatch(setCurrentFile({ currentFile: filename }))
+  }
+  const updateSelectedMethods = (methods: string[]) => {
+    dispatch(setSelectedMethods({ seletedMethods: methods }))
+  }
+
+  return (
+    <Sidebar>
+      <SidebarContent>
+        <div className="flex w-full flex-col space-y-5 px-4 py-5">
+          <img
+            src="./images/logo_2.png"
+            className="my-5 h-14 w-auto object-contain"
+          />
+          <h4 className="text-lg font-semibold">File and Settings</h4>
+
+          <div className="grid w-full max-w-sm items-center gap-1.5">
+            <Label htmlFor="cur" className="text-xs font-normal">
+              Current Folder Path
+            </Label>
+            <Input id="cur" value={currentDIR} disabled />
+          </div>
+
+          <div className="grid w-full max-w-sm items-center gap-1.5">
+            <Label htmlFor="folder_path" className="text-xs font-normal">
+              Change Folder Path
+            </Label>
+            <Input
+              id="folder_path"
+              value={dir}
+              onChange={(e) => setDir(e.target.value)}
+            />
+            <div className="mt-1 grid w-full grid-cols-2 gap-1.5">
+              <Button
+                className="text-xs font-semibold"
+                onClick={() => updateDataPath()}
+              >
+                Update
+              </Button>
+              <Button className="text-xs font-semibold" variant={'outline'}>
+                Merge
+              </Button>
+            </div>
+          </div>
+
+          <SidebarSeparator />
+
+          <div className="grid w-full max-w-sm items-center gap-1.5">
+            <Label htmlFor="files" className="text-xs font-normal">
+              Choose File from Current Folder
+            </Label>
+            <Select
+              value={selectedFile}
+              onValueChange={(e) => updateSelectedFile(e)}
+            >
+              <SelectTrigger>
+                <SelectValue
+                  placeholder={
+                    fileList.length > 0 ? 'Select File' : 'Folder is Empty'
+                  }
+                />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>파일목록</SelectLabel>
+                  {fileList.map((file, index) => {
+                    return (
+                      <SelectItem key={index} value={file}>
+                        {file}
+                      </SelectItem>
+                    )
+                  })}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <SidebarSeparator />
+
+          <div className="grid w-full max-w-sm items-center gap-1.5">
+            <div className="col-span-full">
+              <Label className="mb-1.5 text-xs font-normal">Upload File</Label>
+              <div className="mt-2 flex justify-center rounded-lg border border-stone-200 bg-white px-6 py-5">
+                <div className="text-center">
+                  <DocumentArrowUpIcon
+                    aria-hidden="true"
+                    className="mx-auto h-8 w-8 text-stone-900"
+                  />
+                  <div className="mt-4 flex text-xs text-stone-400">
+                    <label
+                      htmlFor="file-upload"
+                      className="relative cursor-pointer rounded-md bg-white font-semibold text-stone-600 hover:text-stone-500"
+                    >
+                      <span>Select file</span>
+                      <input
+                        id="file-upload"
+                        name="file-upload"
+                        type="file"
+                        className="sr-only"
+                      />
+                    </label>
+                    <p className="pl-1 text-xs">or drag & drop</p>
+                  </div>
+                  <p className="text-xs leading-5 text-stone-400">
+                    up to 200MB
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <SidebarSeparator />
+
+          <div className="grid w-full max-w-sm items-center gap-3">
+            <Label className="mb-1.5 text-xs font-normal">Select Method</Label>
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                className="rounded-sm"
+                id="terms"
+                checked={selectedMethods.includes('z-score')}
+                onCheckedChange={(checked) => {
+                  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+                  checked
+                    ? updateSelectedMethods([...selectedMethods, 'z-score'])
+                    : updateSelectedMethods(
+                        selectedMethods.filter((item) => item !== 'z-score')
+                      )
+                }}
+              />
+              <label
+                htmlFor="terms"
+                className="text-xs leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Z-Score Normalization
+              </label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                className="rounded-sm"
+                id="terms"
+                checked={selectedMethods.includes('pca')}
+                onCheckedChange={(checked) => {
+                  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+                  checked
+                    ? updateSelectedMethods([...selectedMethods, 'pca'])
+                    : updateSelectedMethods(
+                        selectedMethods.filter((item) => item !== 'pca')
+                      )
+                }}
+              />
+              <label
+                htmlFor="terms"
+                className="text-xs leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                PCA
+              </label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                className="rounded-sm"
+                id="terms"
+                checked={selectedMethods.includes('autoencoder')}
+                onCheckedChange={(checked) => {
+                  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+                  checked
+                    ? updateSelectedMethods([...selectedMethods, 'autoencoder'])
+                    : updateSelectedMethods(
+                        selectedMethods.filter((item) => item !== 'autoencoder')
+                      )
+                }}
+              />
+              <label
+                htmlFor="terms"
+                className="text-xs leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Autoencoder
+              </label>
+            </div>
+          </div>
+        </div>
+      </SidebarContent>
+    </Sidebar>
+  )
+}
