@@ -18,6 +18,24 @@ export const fetchFileList = async (
     .then((result) => result.data)
 }
 
+export const downloadCSV = async (data_path: string) => {
+  const response = await fetcher.get(`/files/${data_path}/download`, {
+    responseType: 'blob'
+  })
+
+  const blob = new Blob([response.data])
+  const downloadUrl = window.URL.createObjectURL(blob)
+
+  const link = document.createElement('a')
+  link.href = downloadUrl
+  link.download = 'data.csv'
+  document.body.appendChild(link)
+  link.click()
+
+  window.URL.revokeObjectURL(downloadUrl)
+  document.body.removeChild(link)
+}
+
 export const preprocessingData = async (
   filePath: string,
   fileName: string,
@@ -38,7 +56,7 @@ export const checkIntegrity = async (
   method = 'dropna'
 ) => {
   return await fetcher
-    .post<IntegrationCheckResult>('/data/integrity', {
+    .post<IntegrationCheckResult>('/data/check-integrity', {
       file_path: filePath,
       file_name: fileName,
       method
@@ -54,7 +72,7 @@ export const fetchVisualizationImage = async (
 ) => {
   return await fetcher
     .post(
-      '/visualization/image',
+      '/data/visualize/image',
       {
         file_path: filePath,
         file_name: fileName,
@@ -76,7 +94,7 @@ export const fetchAnalysisImage = async (
 ) => {
   return await fetcher
     .post(
-      '/analysis/perform',
+      '/data/analysis',
       {
         file_path: filePath,
         file_name: fileName,
@@ -87,22 +105,4 @@ export const fetchAnalysisImage = async (
       }
     )
     .then((result) => result.data)
-}
-
-export const downloadCSV = async (data_path: string) => {
-  const response = await fetcher.get(`/file?data_path=${data_path}`, {
-    responseType: 'blob'
-  })
-
-  const blob = new Blob([response.data])
-  const downloadUrl = window.URL.createObjectURL(blob)
-
-  const link = document.createElement('a')
-  link.href = downloadUrl
-  link.download = 'data.csv'
-  document.body.appendChild(link)
-  link.click()
-
-  window.URL.revokeObjectURL(downloadUrl)
-  document.body.removeChild(link)
 }

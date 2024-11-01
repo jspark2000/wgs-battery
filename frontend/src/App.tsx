@@ -17,7 +17,7 @@ function App() {
       const result = await fetchFileList(dataPath)
       dispatch(setFileList({ fileList: result.files }))
       dispatch(setCurrentFile({ currentFile: undefined }))
-      toast.success('File List Updated')
+      toast.success('파일 목록이 업데이트 되었습니다')
     }
 
     fetchFileListData()

@@ -13,7 +13,7 @@ router = APIRouter(
 )
 
 
-@router.get("/{data_path:path}")
+@router.get("/{data_path:path}/download")
 async def download_file(data_path: str):
     file_path = Path(data_path)
 

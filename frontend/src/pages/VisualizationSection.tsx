@@ -74,14 +74,14 @@ const VisualizationSection: React.FC<Props> = ({ tempFileUrl }) => {
       </h2>
       {tempFileUrl && (
         <div className="grid grid-cols-2 gap-x-2 gap-y-1.5 pt-5">
-          <Label className="text-xs text-stone-600">Chart Type</Label>
-          <Label className="text-xs text-stone-600">Column</Label>
+          <Label className="text-xs text-stone-600">차트 종류</Label>
+          <Label className="text-xs text-stone-600">컬럼</Label>
           <Select
             value={visualType}
             onValueChange={(value) => setVisualType(value as VisualizationType)}
           >
             <SelectTrigger>
-              <SelectValue placeholder="visualization type" />
+              <SelectValue placeholder="시각화 타입" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value={VisualizationType.LINE}>Line Plot</SelectItem>
@@ -103,7 +103,7 @@ const VisualizationSection: React.FC<Props> = ({ tempFileUrl }) => {
           </Select>
           <Select value={column} onValueChange={(value) => setColumn(value)}>
             <SelectTrigger>
-              <SelectValue placeholder="select column" />
+              <SelectValue placeholder="컬럼을 선택해주세요" />
             </SelectTrigger>
             <SelectContent>
               {csvColumns.map((col) => {
@@ -120,7 +120,7 @@ const VisualizationSection: React.FC<Props> = ({ tempFileUrl }) => {
             className="col-span-2 mt-5"
             disabled={loading || !column}
           >
-            Visualize
+            시각화 하기
           </Button>
         </div>
       )}

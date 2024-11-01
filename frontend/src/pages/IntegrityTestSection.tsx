@@ -44,11 +44,11 @@ const IntegrityTestSection: React.FC<Props> = ({ tempFileUrl }) => {
   const renderBadge = (check: boolean) => {
     return check ? (
       <span className="rounded-md bg-green-100/60 px-2 py-1 text-xs text-green-600">
-        True
+        통과
       </span>
     ) : (
       <span className="rounded-md bg-red-100/60 px-2 py-1 text-xs text-red-600">
-        False
+        실패
       </span>
     )
   }
@@ -58,13 +58,13 @@ const IntegrityTestSection: React.FC<Props> = ({ tempFileUrl }) => {
 
     if (result.no_duplicates && result.no_missing && result.valid_types) {
       return (
-        <div className="w-full rounded-md bg-green-100/60 px-5 py-3 font-semibold text-green-600">
+        <div className="w-full rounded-md bg-green-100/60 px-5 py-3 text-green-600">
           정합성 테스트를 통과하였습니다
         </div>
       )
     } else {
       return (
-        <div className="w-full rounded-md bg-red-100/60 px-5 py-3 font-semibold text-red-600">
+        <div className="w-full rounded-md bg-red-100/60 px-5 py-3 text-red-600">
           일부 테스트가 실패하였습니다
         </div>
       )
@@ -82,15 +82,15 @@ const IntegrityTestSection: React.FC<Props> = ({ tempFileUrl }) => {
           className="mt-5"
           disabled={isFetching}
         >
-          Check Integrity
+          정합성 테스트하기
         </Button>
       )}
       {result && (
         <div className="mb-1 mt-5 flex w-full flex-col space-y-3">
           <h2 className="text-lg font-semibold text-stone-950">CHECK RESULT</h2>
-          <p>No missing values: {renderBadge(result.no_missing)}</p>
-          <p>No duplicate rows: {renderBadge(result.no_duplicates)}</p>
-          <p>Valid data types: {renderBadge(result.valid_types)}</p>
+          <p>결측치 존재 여부 검사: {renderBadge(result.no_missing)}</p>
+          <p>중복값 검사: {renderBadge(result.no_duplicates)}</p>
+          <p>데이터 타입 유효성 검사: {renderBadge(result.valid_types)}</p>
           {renderResult()}
         </div>
       )}

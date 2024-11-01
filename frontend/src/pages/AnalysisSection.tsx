@@ -56,8 +56,8 @@ const AnalysisSection: React.FC<Props> = ({ tempFileUrl }) => {
         사이드바에서 분석 방법을 선택 후 진행해주세요
       </p>
       {success && (
-        <div className="mt-5 w-full rounded-md bg-green-100/60 px-5 py-3 font-semibold text-green-600">
-          Analizing Successfully Finished
+        <div className="mt-5 w-full rounded-md bg-green-100/60 px-5 py-3 text-green-600">
+          데이터 분석이 성공적으로 마무리되었습니다
         </div>
       )}
       {tempFileUrl && (
@@ -76,7 +76,7 @@ const AnalysisSection: React.FC<Props> = ({ tempFileUrl }) => {
             disabled={loading}
             className="mt-5"
           >
-            Analysis
+            데이터 분석 시작
           </Button>
         </div>
       )}
