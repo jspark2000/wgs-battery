@@ -3,6 +3,7 @@ import type {
   AnalysisOptions,
   IntegrationCheckResult,
   ProcessedData,
+  RawDataFrame,
   VisualizationType
 } from '@/types'
 
@@ -34,6 +35,18 @@ export const downloadCSV = async (data_path: string) => {
 
   window.URL.revokeObjectURL(downloadUrl)
   document.body.removeChild(link)
+}
+
+export const getRawDataFrameInfo = async (
+  file_path: string,
+  file_name: string
+) => {
+  return await fetcher
+    .post<RawDataFrame>('/data/raw/show-datafame', {
+      file_path,
+      file_name
+    })
+    .then((result) => result.data)
 }
 
 export const preprocessingData = async (

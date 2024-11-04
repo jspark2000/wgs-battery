@@ -1,4 +1,4 @@
-import type { SettingState } from '@/types'
+import { CSVEncoding, type SettingState } from '@/types'
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
 const initialState: SettingState = {
@@ -6,7 +6,10 @@ const initialState: SettingState = {
   currentFILE: undefined,
   selectedMethods: [],
   fileList: [],
-  csvColumns: []
+  csvColumns: [],
+  encoding: CSVEncoding.CP949,
+  skipRows: 0,
+  nullMethod: 'dropna'
 }
 
 const settingStateSlice = createSlice({
@@ -51,6 +54,27 @@ const settingStateSlice = createSlice({
         ...origin,
         csvColumns: [...action.payload.csvColumns]
       }
+    },
+    setEncoding: (origin, action: PayloadAction<{ encoding: CSVEncoding }>) => {
+      return {
+        ...origin,
+        encoding: action.payload.encoding
+      }
+    },
+    setSkipRows: (origin, action: PayloadAction<{ skipRows: number }>) => {
+      return {
+        ...origin,
+        skipRows: action.payload.skipRows
+      }
+    },
+    setNullMethod: (
+      origin,
+      action: PayloadAction<{ nullMethod: 'dropna' | 'interpolation' }>
+    ) => {
+      return {
+        ...origin,
+        nullMethod: action.payload.nullMethod
+      }
     }
   }
 })
@@ -60,7 +84,8 @@ export const {
   setCurrentFile,
   setSelectedMethods,
   setFileList,
-  setCsvColumns
+  setCsvColumns,
+  setNullMethod
 } = settingStateSlice.actions
 
 export default settingStateSlice.reducer

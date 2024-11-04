@@ -4,16 +4,36 @@ export interface SettingState {
   fileList: string[]
   selectedMethods: string[]
   csvColumns: string[]
-}
-
-export interface DataFrameRow {
-  [key: string]: string | number | boolean | null | Date
+  encoding: CSVEncoding
+  skipRows: number
+  nullMethod: 'dropna' | 'interpolation'
 }
 
 export interface DataFrame {
   shape: number[]
   columns: string[]
-  rows: DataFrameRow[]
+  rows: TableRow[]
+}
+
+export interface RawDataFrame {
+  column_info: DataFrameColumnInfo[]
+  dataframe_info: {
+    total_rows: number
+    total_cols: number
+  }
+  rows: TableRow[]
+}
+
+export interface DataFrameColumnInfo {
+  column_name: string
+  dtype: string
+  non_null_count: number
+  null_count: number
+  null_percnetage: number
+}
+
+export interface TableRow {
+  [key: string]: string | number | boolean | null | Date
 }
 
 export interface ProcessedData {
@@ -50,7 +70,7 @@ export interface AnalysisOptions {
   use_autoencoder: boolean
 }
 
-export enum CSVEncodings {
+export enum CSVEncoding {
   CP949 = 'CP949',
   EUCKR = 'EUCKR',
   UTF16 = 'UTF16',

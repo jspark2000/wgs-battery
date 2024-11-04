@@ -74,7 +74,7 @@ const IntegrityTestSection: React.FC<Props> = ({ tempFileUrl }) => {
   return (
     <div className="flex w-full flex-col py-5">
       <h2 className="mb-2 text-2xl font-semibold text-stone-800">
-        1. 데이터 전처리 및 정합성 테스트
+        1. 전처리 데이터 정합성 테스트
       </h2>
       {tempFileUrl && (
         <Button

@@ -10,11 +10,18 @@ from app.models.analysis_request import AnalysisRequest
 from app.models.visualization_request import VisualizationRequest
 from app.services.analysis import analysis
 from app.services.visualize import generate_visualize_buf
+from app.models.show_dataframe_request import ShowDataframeRequest
 
 router = APIRouter(
     prefix="/data",
     tags=["data"],
 )
+
+
+@router.post("/raw/show-datafame")
+async def show_raw_dataframe(request: ShowDataframeRequest):
+    df = load_data(os.path.join(get_full_path(request.file_path), request.file_name))
+    return get_dataframe_info(df)
 
 
 @router.post("/preprocess")
