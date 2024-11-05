@@ -2,7 +2,6 @@ from enum import Enum
 from app.models.visualization_request import VisualizationRequest
 from app.utils.functions import *
 from app.utils.charts import *
-import os
 import io
 import matplotlib.pyplot as plt
 
@@ -20,7 +19,8 @@ class VisualizationType(str, Enum):
 async def generate_visualize_buf(request: VisualizationRequest) -> io.BytesIO:
     try:
         df = load_data(
-            os.path.join(get_full_path(request.file_path), request.file_name)
+            get_full_path(request.file_path),
+            encoding=parse_csv_encoding(request.encoding),
         )
 
         if request.visualization_type == VisualizationType.LINE:

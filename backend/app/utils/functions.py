@@ -1,7 +1,9 @@
 from fastapi import HTTPException
+from app.models.preprocessing_request import CSVEncoding, NullMethod
 import pandas as pd
 import os
 import json
+
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(BASE_DIR)
@@ -23,17 +25,17 @@ def change_current_file_dir(data_path: str):
     return new_dir
 
 
-def load_data(file_path: str) -> pd.DataFrame:
+def load_data(file_path: str, encoding: str) -> pd.DataFrame:
     try:
-        return pd.read_csv(file_path)
+        return pd.read_csv(file_path, encoding=encoding)
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Error loading file: {str(e)}")
 
 
-def preprocess_data(df: pd.DataFrame, method: str) -> pd.DataFrame:
-    if method == "dropna":
+def preprocess_data(df: pd.DataFrame, method: NullMethod) -> pd.DataFrame:
+    if method == NullMethod.DROPNA:
         df.dropna(inplace=True)
-    elif method == "interpolate":
+    elif method == NullMethod.INTERPOLATION:
         df.interpolate(inplace=True)
     df.reset_index(drop=True, inplace=True)
     return df
@@ -60,3 +62,16 @@ def get_dataframe_info(df: pd.DataFrame):
         "dataframe_info": {"total_rows": total_rows, "total_cols": total_cols},
         "rows": json.loads(df.head(10).to_json(orient="records", date_format="iso")),
     }
+
+
+def parse_csv_encoding(encoding: CSVEncoding):
+    if encoding == CSVEncoding.ASCII:
+        return "ascii"
+    elif encoding == CSVEncoding.CP949:
+        return "cp949"
+    elif encoding == CSVEncoding.EUCKR:
+        return "euckr"
+    elif encoding == CSVEncoding.UTF16:
+        return "utf16"
+    else:
+        return "utf8"  # default

@@ -1,12 +1,15 @@
 import { Separator } from '@/components/ui/separator'
-import { useState } from 'react'
+import type { RootState } from '@/store'
+import { useSelector } from 'react-redux'
 import AnalysisSection from './AnalysisSection'
 import IntegrityTestSection from './IntegrityTestSection'
 import PreprocessingSection from './PreprocessingSection'
 import VisualizationSection from './VisualizationSection'
 
 export default function MainPage() {
-  const [tempFileUrl, setTempFileUrl] = useState<string>()
+  const tempFileUrl = useSelector(
+    (state: RootState) => state.setting.tempFileUrl
+  )
 
   return (
     <div className="mx-auto flex w-full max-w-screen-md flex-col pb-16">
@@ -20,11 +23,15 @@ export default function MainPage() {
       <p className="mt-4 text-center text-sm italic text-stone-400">
         데이터 전처리 및 분석 어플리케이션
       </p>
-      <PreprocessingSection setTempFileUrl={setTempFileUrl} />
+      <PreprocessingSection />
       <Separator className="mt-10" />
-      <IntegrityTestSection tempFileUrl={tempFileUrl} />
-      <VisualizationSection tempFileUrl={tempFileUrl} />
-      <AnalysisSection tempFileUrl={tempFileUrl} />
+      {tempFileUrl && (
+        <>
+          <IntegrityTestSection tempFileUrl={tempFileUrl} />
+          <VisualizationSection tempFileUrl={tempFileUrl} />
+          <AnalysisSection tempFileUrl={tempFileUrl} />
+        </>
+      )}
     </div>
   )
 }

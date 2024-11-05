@@ -7,15 +7,10 @@ export interface SettingState {
   encoding: CSVEncoding
   skipRows: number
   nullMethod: 'dropna' | 'interpolation'
+  tempFileUrl?: string
 }
 
-export interface DataFrame {
-  shape: number[]
-  columns: string[]
-  rows: TableRow[]
-}
-
-export interface RawDataFrame {
+export interface DataFrameInfo {
   column_info: DataFrameColumnInfo[]
   dataframe_info: {
     total_rows: number
@@ -37,8 +32,7 @@ export interface TableRow {
 }
 
 export interface ProcessedData {
-  origin: DataFrame
-  processed: DataFrame
+  info: DataFrameInfo
   temp_file_name: string
 }
 

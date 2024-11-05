@@ -1,5 +1,4 @@
 import tempfile
-import json
 from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
 from app.models.preprocessing_request import PreprocessingRequest
@@ -20,33 +19,26 @@ router = APIRouter(
 
 @router.post("/raw/show-datafame")
 async def show_raw_dataframe(request: ShowDataframeRequest):
-    df = load_data(os.path.join(get_full_path(request.file_path), request.file_name))
+    df = load_data(
+        os.path.join(get_full_path(request.file_path), request.file_name), "utf8"
+    )
     return get_dataframe_info(df)
 
 
 @router.post("/preprocess")
 async def preprocess_route(request: PreprocessingRequest):
-    df = load_data(os.path.join(get_full_path(request.file_path), request.file_name))
-    processed_df = preprocess_data(df, request.method)
+    df = load_data(
+        os.path.join(get_full_path(request.file_path), request.file_name),
+        encoding=request.encoding,
+    )
+    processed_df = preprocess_data(df, request.null_method)
+    processed_df_info = get_dataframe_info(processed_df)
 
     with tempfile.NamedTemporaryFile(suffix=".csv", delete=False) as tmp:
         processed_df.to_csv(tmp.name, index=False)
 
         return {
-            "origin": {
-                "shape": df.shape,
-                "columns": df.columns.tolist(),
-                "rows": json.loads(
-                    df.head(5).to_json(orient="records", date_format="iso")
-                ),
-            },
-            "processed": {
-                "shape": processed_df.shape,
-                "columns": processed_df.columns.tolist(),
-                "rows": json.loads(
-                    processed_df.head(5).to_json(orient="records", date_format="iso")
-                ),
-            },
+            "info": processed_df_info,
             "temp_file_name": tmp.name,
         }
 

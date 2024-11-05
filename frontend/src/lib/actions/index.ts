@@ -1,9 +1,10 @@
 import fetcher from '@/lib/fetcher'
 import type {
   AnalysisOptions,
+  CSVEncoding,
   IntegrationCheckResult,
   ProcessedData,
-  RawDataFrame,
+  DataFrameInfo,
   VisualizationType
 } from '@/types'
 
@@ -42,7 +43,7 @@ export const getRawDataFrameInfo = async (
   file_name: string
 ) => {
   return await fetcher
-    .post<RawDataFrame>('/data/raw/show-datafame', {
+    .post<DataFrameInfo>('/data/raw/show-datafame', {
       file_path,
       file_name
     })
@@ -50,47 +51,43 @@ export const getRawDataFrameInfo = async (
 }
 
 export const preprocessingData = async (
-  filePath: string,
-  fileName: string,
-  method = 'dropna'
+  file_path: string,
+  file_name: string,
+  encoding: CSVEncoding,
+  null_method: 'dropna' | 'interpolation',
+  skip_rows = 0
 ) => {
   return await fetcher
     .post<ProcessedData>('/data/preprocess', {
-      file_path: filePath,
-      file_name: fileName,
-      method
+      file_path,
+      file_name,
+      encoding,
+      null_method,
+      skip_rows
     })
     .then((result) => result.data)
 }
 
-export const checkIntegrity = async (
-  filePath: string,
-  fileName: string,
-  method = 'dropna'
-) => {
+export const checkIntegrity = async (file_path: string) => {
   return await fetcher
     .post<IntegrationCheckResult>('/data/check-integrity', {
-      file_path: filePath,
-      file_name: fileName,
-      method
+      file_path
     })
     .then((result) => result.data)
 }
 
 export const fetchVisualizationImage = async (
-  filePath: string,
-  fileName: string,
-  visualType: VisualizationType,
+  file_path: string,
+  visualization_type: VisualizationType,
   column: string
 ) => {
   return await fetcher
     .post(
       '/data/visualize/image',
       {
-        file_path: filePath,
-        file_name: fileName,
-        visualization_type: visualType,
-        column: column,
+        file_path,
+        visualization_type,
+        column,
         columns: []
       },
       {
@@ -101,16 +98,14 @@ export const fetchVisualizationImage = async (
 }
 
 export const fetchAnalysisImage = async (
-  filePath: string,
-  fileName: string,
+  file_path: string,
   options: AnalysisOptions
 ) => {
   return await fetcher
     .post(
       '/data/analysis',
       {
-        file_path: filePath,
-        file_name: fileName,
+        file_path,
         ...options
       },
       {

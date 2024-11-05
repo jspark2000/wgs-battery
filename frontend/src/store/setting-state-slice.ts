@@ -9,7 +9,8 @@ const initialState: SettingState = {
   csvColumns: [],
   encoding: CSVEncoding.CP949,
   skipRows: 0,
-  nullMethod: 'dropna'
+  nullMethod: 'dropna',
+  tempFileUrl: undefined
 }
 
 const settingStateSlice = createSlice({
@@ -75,6 +76,15 @@ const settingStateSlice = createSlice({
         ...origin,
         nullMethod: action.payload.nullMethod
       }
+    },
+    setTempFileUrl: (
+      origin,
+      action: PayloadAction<{ tempFileUrl: string }>
+    ) => {
+      return {
+        ...origin,
+        tempFileUrl: action.payload.tempFileUrl
+      }
     }
   }
 })
@@ -85,7 +95,9 @@ export const {
   setSelectedMethods,
   setFileList,
   setCsvColumns,
-  setNullMethod
+  setNullMethod,
+  setEncoding,
+  setTempFileUrl
 } = settingStateSlice.actions
 
 export default settingStateSlice.reducer

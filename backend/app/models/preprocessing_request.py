@@ -16,7 +16,6 @@ class NullMethod(str, Enum):
 
 
 class PreprocessingRequest(BaseModel):
-    method: str
     file_path: str
     file_name: str
     encoding: CSVEncoding
