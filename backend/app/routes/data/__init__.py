@@ -59,14 +59,3 @@ async def generate_visualization(request: VisualizationRequest) -> StreamingResp
         media_type="application/octet-stream",
         headers={"Content-Disposition": "attachment; filename=result.png"},
     )
-
-
-# @router.post("/analysis")
-# async def analysis_data(request: AnalysisRequest):
-#     buf = await analysis(request)
-
-#     return StreamingResponse(
-#         buf,
-#         media_type="application/octet-stream",
-#         headers={"Content-Disposition": "attachment; filename=result.png"},
-#     )
