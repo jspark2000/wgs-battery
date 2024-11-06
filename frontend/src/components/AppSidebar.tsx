@@ -4,6 +4,7 @@ import {
   setCurrentFile,
   setSelectedMethods
 } from '@/store/setting-state-slice'
+import { AnalysisMethod } from '@/types'
 import { DocumentArrowUpIcon } from '@heroicons/react/24/solid'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -43,6 +44,22 @@ export function AppSidebar() {
   const updateSelectedMethods = (methods: string[]) => {
     dispatch(setSelectedMethods({ seletedMethods: methods }))
   }
+
+  const methods = [
+    {
+      id: 'anomaly',
+      label: 'Feature based Anomaly Scoring',
+      value: AnalysisMethod.Anomaly
+    },
+    {
+      id: 'impact-factor',
+      label: 'Impact Factor',
+      value: AnalysisMethod.ImpactFactor
+    },
+    { id: 'mscred', label: 'MSCRED', value: AnalysisMethod.MSCRED },
+    { id: 'if', label: 'IF', value: AnalysisMethod.IF },
+    { id: 'rrcf', label: 'RRCF', value: AnalysisMethod.RRCF }
+  ]
 
   return (
     <Sidebar>
@@ -151,111 +168,34 @@ export function AppSidebar() {
 
           <div className="grid w-full max-w-sm items-center gap-3">
             <Label className="mb-1.5 text-xs font-normal">분석 방법 선택</Label>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                className="rounded-sm"
-                id="terms"
-                checked={selectedMethods.includes('anomaly')}
-                onCheckedChange={(checked) => {
-                  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-                  checked
-                    ? updateSelectedMethods([...selectedMethods, 'anomaly'])
-                    : updateSelectedMethods(
-                        selectedMethods.filter((item) => item !== 'anomaly')
-                      )
-                }}
-              />
-              <label
-                htmlFor="terms"
-                className="text-xs leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Feature based Anomaly Scoring
-              </label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                className="rounded-sm"
-                id="terms"
-                checked={selectedMethods.includes('impact')}
-                onCheckedChange={(checked) => {
-                  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-                  checked
-                    ? updateSelectedMethods([...selectedMethods, 'impact'])
-                    : updateSelectedMethods(
-                        selectedMethods.filter((item) => item !== 'impact')
-                      )
-                }}
-              />
-              <label
-                htmlFor="terms"
-                className="text-xs leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Impact Factor
-              </label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                className="rounded-sm"
-                id="terms"
-                checked={selectedMethods.includes('mscred')}
-                onCheckedChange={(checked) => {
-                  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-                  checked
-                    ? updateSelectedMethods([...selectedMethods, 'mscred'])
-                    : updateSelectedMethods(
-                        selectedMethods.filter((item) => item !== 'mscred')
-                      )
-                }}
-              />
-              <label
-                htmlFor="terms"
-                className="text-xs leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                MSCRED
-              </label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                className="rounded-sm"
-                id="terms"
-                checked={selectedMethods.includes('if')}
-                onCheckedChange={(checked) => {
-                  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-                  checked
-                    ? updateSelectedMethods([...selectedMethods, 'if'])
-                    : updateSelectedMethods(
-                        selectedMethods.filter((item) => item !== 'if')
-                      )
-                }}
-              />
-              <label
-                htmlFor="terms"
-                className="text-xs leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                IF
-              </label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                className="rounded-sm"
-                id="terms"
-                checked={selectedMethods.includes('rrcf')}
-                onCheckedChange={(checked) => {
-                  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-                  checked
-                    ? updateSelectedMethods([...selectedMethods, 'rrcf'])
-                    : updateSelectedMethods(
-                        selectedMethods.filter((item) => item !== 'rrcf')
-                      )
-                }}
-              />
-              <label
-                htmlFor="terms"
-                className="text-xs leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                RRCF
-              </label>
-            </div>
+            {methods.map((method) => (
+              <div key={method.id} className="flex items-center space-x-2">
+                <Checkbox
+                  className="rounded-sm"
+                  id={method.id}
+                  checked={selectedMethods.includes(method.value)}
+                  onCheckedChange={(checked) => {
+                    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+                    checked
+                      ? updateSelectedMethods([
+                          ...selectedMethods,
+                          method.value
+                        ])
+                      : updateSelectedMethods(
+                          selectedMethods.filter(
+                            (item) => item !== method.value
+                          )
+                        )
+                  }}
+                />
+                <label
+                  htmlFor={method.id}
+                  className="text-xs leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  {method.label}
+                </label>
+              </div>
+            ))}
           </div>
         </div>
       </SidebarContent>

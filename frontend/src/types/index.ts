@@ -52,7 +52,6 @@ export enum VisualizationType {
   LINE = 'Line Plot',
   CONTROL = 'Control Chart',
   PARETO = 'Pareto Chart',
-  SCATTER = 'Scatter Plot',
   SPECTOGRAM = 'Spectogram',
   HISTOGRAM = 'Histogram',
   FFT = 'FFT'
@@ -70,4 +69,12 @@ export enum CSVEncoding {
   UTF16 = 'UTF16',
   UTF8 = 'UTF8',
   ASCII = 'ASCII'
+}
+
+export enum AnalysisMethod {
+  Anomaly = 'Anomaly',
+  ImpactFactor = 'ImpactFactor',
+  MSCRED = 'MSCRED',
+  RRCF = 'RRCF',
+  IF = 'IF'
 }
