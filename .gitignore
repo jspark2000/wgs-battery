@@ -29,3 +29,6 @@ tsconfig.node.tsbuild*
 __pycache*
 .venv
 csv
+
+# Others
+backend/app/data
