@@ -3,7 +3,9 @@ import { Label } from '@/components/ui/label'
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
@@ -32,17 +34,17 @@ const VisualizationSection: React.FC<Props> = ({ tempFileUrl }) => {
     setColumn('')
     setImage(null)
     setLoading(false)
-  }, [setting.currentDIR, setting.currentFILE])
+  }, [setting.currentDIR, setting.currentFILE, setting.tempFileUrl])
 
   const handleClick = async () => {
-    if (!setting.currentFILE) return
+    if (!setting.tempFileUrl) return
 
     try {
       setLoading(true)
 
       const response = await fetchVisualizationImage(
-        setting.currentDIR,
-        setting.currentFILE,
+        setting.tempFileUrl,
+        setting.encoding,
         visualType,
         column
       )
@@ -84,21 +86,28 @@ const VisualizationSection: React.FC<Props> = ({ tempFileUrl }) => {
               <SelectValue placeholder="시각화 타입" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value={VisualizationType.LINE}>Line Plot</SelectItem>
-              <SelectItem value={VisualizationType.CONTROL}>
-                Control Chart
-              </SelectItem>
-              <SelectItem value={VisualizationType.PARETO}>
-                Pareto Chart
-              </SelectItem>
-              <SelectItem value={VisualizationType.SPECTOGRAM}>
-                Spectogram
-              </SelectItem>
-              <SelectItem value={VisualizationType.SCATTER}>Scatter</SelectItem>
-              <SelectItem value={VisualizationType.HISTOGRAM}>
-                Histogram
-              </SelectItem>
-              <SelectItem value={VisualizationType.FFT}>FFT</SelectItem>
+              <SelectGroup>
+                <SelectLabel>선 그래프</SelectLabel>
+                <SelectItem value={VisualizationType.LINE}>
+                  Line Plot
+                </SelectItem>
+                <SelectItem value={VisualizationType.CONTROL}>
+                  Control Chart
+                </SelectItem>
+                <SelectItem value={VisualizationType.PARETO}>
+                  Pareto Chart
+                </SelectItem>
+                <SelectItem value={VisualizationType.FFT}>FFT</SelectItem>
+              </SelectGroup>
+              <SelectGroup>
+                <SelectLabel>기타</SelectLabel>
+                <SelectItem value={VisualizationType.SPECTOGRAM}>
+                  Spectogram
+                </SelectItem>
+                <SelectItem value={VisualizationType.HISTOGRAM}>
+                  Histogram
+                </SelectItem>
+              </SelectGroup>
             </SelectContent>
           </Select>
           <Select value={column} onValueChange={(value) => setColumn(value)}>

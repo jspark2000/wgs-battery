@@ -82,6 +82,7 @@ export const checkIntegrity = async (
 
 export const fetchVisualizationImage = async (
   file_path: string,
+  encoding: CSVEncoding,
   visualization_type: VisualizationType,
   column: string
 ) => {
@@ -91,6 +92,7 @@ export const fetchVisualizationImage = async (
       {
         file_path,
         visualization_type,
+        encoding,
         column,
         columns: []
       },
