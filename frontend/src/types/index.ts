@@ -54,7 +54,11 @@ export enum VisualizationType {
   PARETO = 'Pareto Chart',
   SPECTOGRAM = 'Spectogram',
   HISTOGRAM = 'Histogram',
-  FFT = 'FFT'
+  FFT = 'FFT',
+  MIN_MAX = 'Moving Min Max',
+  DIFFERENTIAL = 'Differential Filter',
+  LOW_HIGH = 'Low High Path FILTER',
+  EXPONENTIAL = 'Exponential Composite'
 }
 
 export interface AnalysisOptions {

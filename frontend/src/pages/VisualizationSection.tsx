@@ -87,7 +87,7 @@ const VisualizationSection: React.FC<Props> = ({ tempFileUrl }) => {
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectLabel>선 그래프</SelectLabel>
+                <SelectLabel>Basic</SelectLabel>
                 <SelectItem value={VisualizationType.LINE}>
                   Line Plot
                 </SelectItem>
@@ -98,6 +98,21 @@ const VisualizationSection: React.FC<Props> = ({ tempFileUrl }) => {
                   Pareto Chart
                 </SelectItem>
                 <SelectItem value={VisualizationType.FFT}>FFT</SelectItem>
+              </SelectGroup>
+              <SelectGroup>
+                <SelectLabel>Advanced</SelectLabel>
+                <SelectItem value={VisualizationType.EXPONENTIAL}>
+                  지수함수합성
+                </SelectItem>
+                <SelectItem value={VisualizationType.LOW_HIGH}>
+                  로우하이패스필터
+                </SelectItem>
+                <SelectItem value={VisualizationType.MIN_MAX}>
+                  이동최대최소
+                </SelectItem>
+                <SelectItem value={VisualizationType.DIFFERENTIAL}>
+                  미분필터
+                </SelectItem>
               </SelectGroup>
               <SelectGroup>
                 <SelectLabel>기타</SelectLabel>

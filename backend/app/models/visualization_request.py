@@ -5,6 +5,5 @@ from app.models.request import RequestWithTempFile
 
 class VisualizationRequest(RequestWithTempFile):
     visualization_type: str
-    column: Optional[str]
-    columns: Optional[List[str]]
+    column: str
     encoding: CSVEncoding

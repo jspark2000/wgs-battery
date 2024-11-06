@@ -1,15 +1,26 @@
 import { Separator } from '@/components/ui/separator'
 import type { RootState } from '@/store'
-import { useSelector } from 'react-redux'
+import { setTempFileUrl } from '@/store/setting-state-slice'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import AnalysisSection from './AnalysisSection'
 import IntegrityTestSection from './IntegrityTestSection'
 import PreprocessingSection from './PreprocessingSection'
 import VisualizationSection from './VisualizationSection'
 
 export default function MainPage() {
+  const dispatch = useDispatch()
   const tempFileUrl = useSelector(
     (state: RootState) => state.setting.tempFileUrl
   )
+  const currentFILE = useSelector(
+    (state: RootState) => state.setting.currentFILE
+  )
+
+  useEffect(() => {
+    dispatch(setTempFileUrl({ tempFileUrl: '' }))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentFILE])
 
   return (
     <div className="mx-auto flex w-full max-w-screen-md flex-col pb-16">

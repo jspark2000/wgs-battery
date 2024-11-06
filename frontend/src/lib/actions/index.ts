@@ -93,8 +93,7 @@ export const fetchVisualizationImage = async (
         file_path,
         visualization_type,
         encoding,
-        column,
-        columns: []
+        column
       },
       {
         responseType: 'blob'

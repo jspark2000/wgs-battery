@@ -97,7 +97,8 @@ export const {
   setCsvColumns,
   setNullMethod,
   setEncoding,
-  setTempFileUrl
+  setTempFileUrl,
+  setSkipRows
 } = settingStateSlice.actions
 
 export default settingStateSlice.reducer

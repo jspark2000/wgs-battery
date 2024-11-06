@@ -7,7 +7,6 @@ from app.models.integrity_check_response import IntegrityCheckResponse
 from app.services.check_intergrity import check_integration
 from app.models.analysis_request import AnalysisRequest
 from app.models.visualization_request import VisualizationRequest
-from app.services.analysis import analysis
 from app.services.visualize import generate_visualize_buf
 from app.models.show_dataframe_request import ShowDataframeRequest
 from app.models.request import RequestWithTempFile
@@ -30,7 +29,8 @@ async def show_raw_dataframe(request: ShowDataframeRequest):
 async def preprocess_route(request: PreprocessingRequest):
     df = load_data(
         os.path.join(get_full_path(request.file_path), request.file_name),
-        encoding=request.encoding,
+        request.encoding,
+        request.skip_rows,
     )
     processed_df = preprocess_data(df, request.null_method)
     processed_df_info = get_dataframe_info(processed_df)
@@ -61,12 +61,12 @@ async def generate_visualization(request: VisualizationRequest) -> StreamingResp
     )
 
 
-@router.post("/analysis")
-async def analysis_data(request: AnalysisRequest):
-    buf = await analysis(request)
+# @router.post("/analysis")
+# async def analysis_data(request: AnalysisRequest):
+#     buf = await analysis(request)
 
-    return StreamingResponse(
-        buf,
-        media_type="application/octet-stream",
-        headers={"Content-Disposition": "attachment; filename=result.png"},
-    )
+#     return StreamingResponse(
+#         buf,
+#         media_type="application/octet-stream",
+#         headers={"Content-Disposition": "attachment; filename=result.png"},
+#     )

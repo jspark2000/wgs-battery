@@ -10,10 +10,14 @@ class VisualizationType(str, Enum):
     LINE = "Line Plot"
     CONTROL = "Control Chart"
     PARETO = "Pareto Chart"
-    SCATTER = "Scatter Plot"
+    # SCATTER = "Scatter Plot"
     SPECTOGRAM = "Spectogram"
     HISTOGRAM = "Histogram"
     FFT = "FFT"
+    MIN_MAX = "Moving Min Max"
+    DIFFERENTIAL = "Differential Filter"
+    LOW_HIGH = "Low High Path FILTER"
+    EXPONENTIAL = "Exponential Composite"
 
 
 async def generate_visualize_buf(request: VisualizationRequest) -> io.BytesIO:
@@ -32,11 +36,6 @@ async def generate_visualize_buf(request: VisualizationRequest) -> io.BytesIO:
         elif request.visualization_type == VisualizationType.PARETO:
             fig = create_pareto_chart(df, request.column)
 
-        elif request.visualization_type == VisualizationType.SCATTER:
-            if not request.columns or len(request.columns) != 2:
-                raise ValueError("Scatter plot requires exactly two columns")
-            fig = create_scatter_plot(df, request.columns)
-
         elif request.visualization_type == VisualizationType.SPECTOGRAM:
             fig = spectrogram(df, request.column)
 
@@ -45,6 +44,18 @@ async def generate_visualize_buf(request: VisualizationRequest) -> io.BytesIO:
 
         elif request.visualization_type == VisualizationType.FFT:
             fig = create_fft(df, request.column)
+
+        elif request.visualization_type == VisualizationType.LOW_HIGH:
+            fig = create_low_high_filter(df, request.column)
+
+        elif request.visualization_type == VisualizationType.DIFFERENTIAL:
+            fig = create_differential_filter(df, request.column)
+
+        elif request.visualization_type == VisualizationType.MIN_MAX:
+            fig = create_moving_min_max(df, request.column)
+
+        elif request.visualization_type == VisualizationType.EXPONENTIAL:
+            fig = create_exponential_composite(df, request.column)
 
         else:
             raise ValueError(

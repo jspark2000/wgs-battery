@@ -26,6 +26,7 @@ import {
   setCsvColumns,
   setEncoding,
   setNullMethod,
+  setSkipRows,
   setTempFileUrl
 } from '@/store/setting-state-slice'
 import { CSVEncoding, type DataFrameInfo, type ProcessedData } from '@/types'
@@ -45,6 +46,7 @@ const PreprocessingSection: React.FC = () => {
       if (currentFILE) {
         const result = await getRawDataFrameInfo(currentDIR, currentFILE)
         setData(result)
+        setProcessedData(undefined)
 
         if (result) {
           dispatch(
@@ -76,6 +78,11 @@ const PreprocessingSection: React.FC = () => {
 
       setProcessedData(result)
       dispatch(setTempFileUrl({ tempFileUrl: result.temp_file_name }))
+      dispatch(
+        setCsvColumns({
+          csvColumns: result.info.column_info.map((col) => col.column_name)
+        })
+      )
     } catch (error) {
       console.log(error)
     } finally {
@@ -124,6 +131,11 @@ const PreprocessingSection: React.FC = () => {
             type="number"
             placeholder="건너 뛸 row 수"
             defaultValue={0}
+            onChange={(event) =>
+              dispatch(
+                setSkipRows({ skipRows: parseInt(event.target.value, 10) })
+              )
+            }
           />
         </div>
         <div>

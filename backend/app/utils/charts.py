@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.signal import stft
+import pandas as pd
+from scipy.signal import stft, butter, filtfilt
 
 
 # Basic
@@ -112,4 +113,82 @@ def create_fft(df, column):
     ax.set_title(f"FFT of {column}")
     ax.set_xlabel("Frequency")
     ax.set_ylabel("Amplitude")
+    return fig
+
+
+# Low-High Filter
+def create_low_high_filter(df: pd.DataFrame, column: str):
+    fs = 1e6  # 샘플링 레이트 1 MHz
+    fc = 10000  # 컷오프 주파수 10 kHz
+
+    # 필터 계수 생성
+    b_high, a_high = butter(N=5, Wn=fc / (fs / 2), btype="high")
+    b_low, a_low = butter(N=5, Wn=fc / (fs / 2), btype="low")
+
+    # 필터 적용
+    high_filtered_data = filtfilt(b_high, a_high, df[column])
+    low_high_filtered_data = filtfilt(b_low, a_low, high_filtered_data)
+
+    fig, ax = plt.subplots()
+    ax.plot(low_high_filtered_data, linewidth=0.5, alpha=1, label=column)
+    ax.set_title("Row-High Filtered")
+    ax.set_xlabel("Time Series")
+    ax.set_ylabel("Value")
+    ax.legend(loc="upper right", framealpha=0.7)
+    ax.grid(linestyle="--")
+
+    return fig
+
+
+def create_differential_filter(df: pd.DataFrame, column: str):
+    filter = np.concatenate((np.full(50, -1), np.full(50, 1)))
+    filtered_data = np.convolve(df[column], filter, mode="valid")
+    filtered_data = abs(filtered_data)
+
+    fig, ax = plt.subplots()
+    ax.plot(filtered_data, linewidth=0.5, alpha=1, label=column)
+    ax.set_title("Differential Filtered")
+    ax.set_xlabel("Time Series")
+    ax.set_ylabel("Value")
+    ax.legend(loc="upper right", framealpha=0.7)
+    ax.grid(linestyle="--")
+
+    return fig
+
+
+def create_moving_min_max(df: pd.DataFrame, column: str):
+    window_size = 10_000
+
+    data = df.copy(deep=True)
+    data["moving_max"] = data[column].rolling(window=window_size, center=True).max()
+    data["moving_max"] = data["moving_max"].ffill().bfill()
+    data["moving_min"] = data[column].rolling(window=window_size, center=True).min()
+    data["moving_min"] = data["moving_min"].ffill().bfill()
+
+    moving_max_min = data["moving_max"] - data["moving_min"]
+
+    fig, ax = plt.subplots()
+    ax.plot(moving_max_min, linewidth=0.5, alpha=1, label=column)
+    ax.set_title("Moving Min-Max")
+    ax.set_xlabel("Time Series")
+    ax.set_ylabel("Value")
+    ax.legend(loc="upper right", framealpha=0.7)
+    ax.grid(linestyle="--")
+
+    return fig
+
+
+def create_exponential_composite(df: pd.DataFrame, column: str):
+    avg = df[column].mean()
+    normalized = (df[column] - avg) / avg
+    exp_ed = np.exp(normalized)
+
+    fig, ax = plt.subplots()
+    ax.plot(exp_ed, linewidth=0.5, alpha=1, label=column)
+    ax.set_title("Exponential Composite")
+    ax.set_xlabel("Time Series")
+    ax.set_ylabel("Value")
+    ax.legend(loc="upper right", framealpha=0.7)
+    ax.grid(linestyle="--")
+
     return fig

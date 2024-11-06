@@ -25,9 +25,9 @@ def change_current_file_dir(data_path: str):
     return new_dir
 
 
-def load_data(file_path: str, encoding: str) -> pd.DataFrame:
+def load_data(file_path: str, encoding: str, skipRows=0) -> pd.DataFrame:
     try:
-        return pd.read_csv(file_path, encoding=encoding)
+        return pd.read_csv(file_path, encoding=encoding, skiprows=skipRows)
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Error loading file: {str(e)}")
 
