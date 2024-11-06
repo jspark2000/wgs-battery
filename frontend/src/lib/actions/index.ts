@@ -68,10 +68,14 @@ export const preprocessingData = async (
     .then((result) => result.data)
 }
 
-export const checkIntegrity = async (file_path: string) => {
+export const checkIntegrity = async (
+  file_path: string,
+  encoding: CSVEncoding
+) => {
   return await fetcher
     .post<IntegrationCheckResult>('/data/check-integrity', {
-      file_path
+      file_path,
+      encoding
     })
     .then((result) => result.data)
 }

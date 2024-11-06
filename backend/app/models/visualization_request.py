@@ -1,10 +1,9 @@
 from typing import List, Optional
-from pydantic import BaseModel
 from app.models.preprocessing_request import CSVEncoding
+from app.models.request import RequestWithTempFile
 
 
-class VisualizationRequest(BaseModel):
-    file_path: str
+class VisualizationRequest(RequestWithTempFile):
     visualization_type: str
     column: Optional[str]
     columns: Optional[List[str]]

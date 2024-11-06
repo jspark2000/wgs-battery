@@ -18,19 +18,15 @@ const IntegrityTestSection: React.FC<Props> = ({ tempFileUrl }) => {
   useEffect(() => {
     setIsFetching(false)
     setResult(undefined)
-  }, [setting.currentDIR, setting.currentFILE])
+  }, [setting.currentDIR, setting.currentFILE, setting.tempFileUrl])
 
   const handleClick = async () => {
-    if (!setting.currentFILE) return
+    if (!setting.tempFileUrl) return
 
     setIsFetching(true)
 
     try {
-      const result = await checkIntegrity(
-        setting.currentDIR,
-        setting.currentFILE,
-        'dropna'
-      )
+      const result = await checkIntegrity(setting.tempFileUrl, setting.encoding)
 
       setResult(result)
     } catch (e) {

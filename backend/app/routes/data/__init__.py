@@ -10,6 +10,7 @@ from app.models.visualization_request import VisualizationRequest
 from app.services.analysis import analysis
 from app.services.visualize import generate_visualize_buf
 from app.models.show_dataframe_request import ShowDataframeRequest
+from app.models.request import RequestWithTempFile
 
 router = APIRouter(
     prefix="/data",
@@ -44,7 +45,7 @@ async def preprocess_route(request: PreprocessingRequest):
 
 
 @router.post("/check-integrity")
-async def check_integrity(request: PreprocessingRequest) -> IntegrityCheckResponse:
+async def check_integrity(request: RequestWithTempFile) -> IntegrityCheckResponse:
     results = await check_integration(request)
     return IntegrityCheckResponse(**results)
 
