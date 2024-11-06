@@ -108,7 +108,7 @@ def calculate_anomaly_score(request: RequestWithTempFile):
     return {"metric": "anomaly score", "value": weighted_score}
 
 
-def calculate_metrics(data, sigma_multiplier=4):
+def calculate_metrics(data: pd.DataFrame, sigma_multiplier=4):
     mean = data.values.mean()
     sigma = np.std(data.values)
 

@@ -12,10 +12,10 @@ router = APIRouter(
 
 
 @router.post("/anomaly_score/calculate")
-async def analysis_anomaly_score(request: RequestWithTempFile):
+def analysis_anomaly_score(request: RequestWithTempFile):
     return calculate_anomaly_score(request)
 
 
 @router.post("/impulse_factor/calculate")
-async def analysis_impulse_factor(request: RequestWithTempFile):
+def analysis_impulse_factor(request: RequestWithTempFile):
     return calculate_impulse_factor(request)

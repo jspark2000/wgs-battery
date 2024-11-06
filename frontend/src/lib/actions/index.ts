@@ -5,7 +5,8 @@ import type {
   IntegrationCheckResult,
   ProcessedData,
   DataFrameInfo,
-  VisualizationType
+  VisualizationType,
+  TableRow
 } from '@/types'
 
 export const healthCheck = async (): Promise<{ message: string }> => {
@@ -99,6 +100,30 @@ export const fetchVisualizationImage = async (
         responseType: 'blob'
       }
     )
+    .then((result) => result.data)
+}
+
+export const analysisImpulseFactor = async (
+  file_path: string,
+  encoding: CSVEncoding
+) => {
+  return await fetcher
+    .post<TableRow>('/analysis/impulse_factor/calculate', {
+      file_path,
+      encoding
+    })
+    .then((result) => result.data)
+}
+
+export const analysisAnomalyScore = async (
+  file_path: string,
+  encoding: CSVEncoding
+) => {
+  return await fetcher
+    .post<TableRow>('/analysis/anomaly_score/calculate', {
+      file_path,
+      encoding
+    })
     .then((result) => result.data)
 }
 
