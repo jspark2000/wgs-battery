@@ -2,10 +2,11 @@ import os
 import shutil
 from glob import glob
 from pathlib import Path
-from fastapi import APIRouter, File, HTTPException, Query, UploadFile
+from fastapi import APIRouter, Body, File, HTTPException, Query, UploadFile
 from fastapi.responses import FileResponse, JSONResponse
 
 from app.utils.functions import DEFAULT_DATA_DIR, change_current_file_dir, get_full_path
+from app.models.file_download_request import FileDownloadRequest
 
 router = APIRouter(
     prefix="/files",
@@ -13,17 +14,20 @@ router = APIRouter(
 )
 
 
-@router.get("/{data_path:path}/download")
-async def download_file(data_path: str):
-    file_path = Path(data_path)
+@router.post("/preprocessed/download")
+async def download_file(request: FileDownloadRequest):
+    file_path = Path(request.file_path)
 
     if not file_path.exists():
         raise HTTPException(
-            status_code=404, detail=f"File {data_path} not found in temporary directory"
+            status_code=404,
+            detail=f"File {request.file_path} not found in temporary directory",
         )
 
     return FileResponse(
-        path=str(file_path), filename="data.csv", media_type="application/octet-stream"
+        path=str(file_path),
+        filename=request.new_file_name,
+        media_type="application/octet-stream",
     )
 
 

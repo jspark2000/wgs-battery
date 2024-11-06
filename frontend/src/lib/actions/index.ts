@@ -21,17 +21,21 @@ export const fetchFileList = async (
     .then((result) => result.data)
 }
 
-export const downloadCSV = async (data_path: string) => {
-  const response = await fetcher.get(`/files/${data_path}/download`, {
-    responseType: 'blob'
-  })
+export const downloadCSV = async (file_path: string, new_file_name: string) => {
+  const response = await fetcher.post(
+    `/files/preprocessed/download`,
+    { file_path, new_file_name },
+    {
+      responseType: 'blob'
+    }
+  )
 
   const blob = new Blob([response.data])
   const downloadUrl = window.URL.createObjectURL(blob)
 
   const link = document.createElement('a')
   link.href = downloadUrl
-  link.download = 'data.csv'
+  link.download = new_file_name
   document.body.appendChild(link)
   link.click()
 

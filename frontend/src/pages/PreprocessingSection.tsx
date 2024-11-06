@@ -20,7 +20,11 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { getRawDataFrameInfo, preprocessingData } from '@/lib/actions'
+import {
+  downloadCSV,
+  getRawDataFrameInfo,
+  preprocessingData
+} from '@/lib/actions'
 import type { RootState } from '@/store'
 import {
   setCsvColumns,
@@ -30,13 +34,20 @@ import {
   setTempFileUrl
 } from '@/store/setting-state-slice'
 import { CSVEncoding, type DataFrameInfo, type ProcessedData } from '@/types'
+import { FileDownIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 const PreprocessingSection: React.FC = () => {
   const dispatch = useDispatch()
-  const { currentFILE, currentDIR, nullMethod, encoding, skipRows } =
-    useSelector((state: RootState) => state.setting)
+  const {
+    currentFILE,
+    currentDIR,
+    nullMethod,
+    encoding,
+    skipRows,
+    tempFileUrl
+  } = useSelector((state: RootState) => state.setting)
   const [data, setData] = useState<DataFrameInfo>()
   const [processedData, setProcessedData] = useState<ProcessedData>()
   const [isFetching, setIsFetching] = useState(false)
@@ -88,6 +99,15 @@ const PreprocessingSection: React.FC = () => {
     } finally {
       setIsFetching(false)
     }
+  }
+
+  const handleDownload = async () => {
+    if (!tempFileUrl) return
+
+    await downloadCSV(
+      tempFileUrl,
+      `${currentFILE?.split('.')[0]}_preprocessed.csv`
+    )
   }
 
   return (
@@ -191,6 +211,15 @@ const PreprocessingSection: React.FC = () => {
                 </DialogDescription>
               </DialogHeader>
               <div>
+                <div className="mb-5 flex items-center justify-between rounded-md border border-zinc-400/80 px-3 py-2">
+                  <div className="flex items-center space-x-2">
+                    <FileDownIcon className="h-8 w-auto text-zinc-600" />
+                    <p>{currentFILE?.split('.')[0]}_preprocessed.csv</p>
+                  </div>
+                  <Button onClick={() => handleDownload()} variant={'outline'}>
+                    다운로드
+                  </Button>
+                </div>
                 <DataFrameSection dataframe={processedData?.info} />
               </div>
               <DialogFooter>
