@@ -155,13 +155,13 @@ export function AppSidebar() {
               <Checkbox
                 className="rounded-sm"
                 id="terms"
-                checked={selectedMethods.includes('z-score')}
+                checked={selectedMethods.includes('anomaly')}
                 onCheckedChange={(checked) => {
                   // eslint-disable-next-line @typescript-eslint/no-unused-expressions
                   checked
-                    ? updateSelectedMethods([...selectedMethods, 'z-score'])
+                    ? updateSelectedMethods([...selectedMethods, 'anomaly'])
                     : updateSelectedMethods(
-                        selectedMethods.filter((item) => item !== 'z-score')
+                        selectedMethods.filter((item) => item !== 'anomaly')
                       )
                 }}
               />
@@ -169,20 +169,20 @@ export function AppSidebar() {
                 htmlFor="terms"
                 className="text-xs leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
-                Z-Score Normalization
+                Feature based Anomaly Scoring
               </label>
             </div>
             <div className="flex items-center space-x-2">
               <Checkbox
                 className="rounded-sm"
                 id="terms"
-                checked={selectedMethods.includes('pca')}
+                checked={selectedMethods.includes('impact')}
                 onCheckedChange={(checked) => {
                   // eslint-disable-next-line @typescript-eslint/no-unused-expressions
                   checked
-                    ? updateSelectedMethods([...selectedMethods, 'pca'])
+                    ? updateSelectedMethods([...selectedMethods, 'impact'])
                     : updateSelectedMethods(
-                        selectedMethods.filter((item) => item !== 'pca')
+                        selectedMethods.filter((item) => item !== 'impact')
                       )
                 }}
               />
@@ -190,20 +190,20 @@ export function AppSidebar() {
                 htmlFor="terms"
                 className="text-xs leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
-                PCA
+                Impact Factor
               </label>
             </div>
             <div className="flex items-center space-x-2">
               <Checkbox
                 className="rounded-sm"
                 id="terms"
-                checked={selectedMethods.includes('autoencoder')}
+                checked={selectedMethods.includes('mscred')}
                 onCheckedChange={(checked) => {
                   // eslint-disable-next-line @typescript-eslint/no-unused-expressions
                   checked
-                    ? updateSelectedMethods([...selectedMethods, 'autoencoder'])
+                    ? updateSelectedMethods([...selectedMethods, 'mscred'])
                     : updateSelectedMethods(
-                        selectedMethods.filter((item) => item !== 'autoencoder')
+                        selectedMethods.filter((item) => item !== 'mscred')
                       )
                 }}
               />
@@ -211,7 +211,49 @@ export function AppSidebar() {
                 htmlFor="terms"
                 className="text-xs leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
-                Autoencoder
+                MSCRED
+              </label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                className="rounded-sm"
+                id="terms"
+                checked={selectedMethods.includes('if')}
+                onCheckedChange={(checked) => {
+                  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+                  checked
+                    ? updateSelectedMethods([...selectedMethods, 'if'])
+                    : updateSelectedMethods(
+                        selectedMethods.filter((item) => item !== 'if')
+                      )
+                }}
+              />
+              <label
+                htmlFor="terms"
+                className="text-xs leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                IF
+              </label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                className="rounded-sm"
+                id="terms"
+                checked={selectedMethods.includes('rrcf')}
+                onCheckedChange={(checked) => {
+                  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+                  checked
+                    ? updateSelectedMethods([...selectedMethods, 'rrcf'])
+                    : updateSelectedMethods(
+                        selectedMethods.filter((item) => item !== 'rrcf')
+                      )
+                }}
+              />
+              <label
+                htmlFor="terms"
+                className="text-xs leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                RRCF
               </label>
             </div>
           </div>
