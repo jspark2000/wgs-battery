@@ -6,7 +6,7 @@ from fastapi import APIRouter, Body, File, HTTPException, Query, UploadFile
 from fastapi.responses import FileResponse, JSONResponse
 
 from app.utils.functions import DEFAULT_DATA_DIR, change_current_file_dir, get_full_path
-from app.models.file_download_request import FileDownloadRequest
+from app.models.file_request import FileDownloadRequest
 
 router = APIRouter(
     prefix="/files",
@@ -49,10 +49,10 @@ async def change_data_path(data_path: str = Query()):
 
 @router.post("/upload")
 async def upload_file(
-    data_path: str = Query(default=DEFAULT_DATA_DIR), file: UploadFile = File(...)
+    file_path: str = Query(), file_name: str = Query(), file: UploadFile = File(...)
 ):
     try:
-        new_dir = Path(change_current_file_dir(data_path))
+        new_dir = Path(os.path.join(change_current_file_dir(file_path), file_name))
 
         with new_dir.open("wb") as buffer:
             shutil.copyfileobj(file.file, buffer)

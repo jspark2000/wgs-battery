@@ -5,9 +5,9 @@ import {
   setSelectedMethods
 } from '@/store/setting-state-slice'
 import { AnalysisMethod } from '@/types'
-import { DocumentArrowUpIcon } from '@heroicons/react/24/solid'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import FileUploadComponent from './FileUploadSection'
 import { Button } from './ui/button'
 import { Checkbox } from './ui/checkbox'
 import { Input } from './ui/input'
@@ -133,37 +133,7 @@ export function AppSidebar() {
           </div>
 
           <SidebarSeparator />
-
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <div className="col-span-full">
-              <Label className="mb-1.5 text-xs font-normal">파일 업로드</Label>
-              <div className="mt-2 flex justify-center rounded-lg border border-stone-200 bg-white px-6 py-5">
-                <div className="text-center">
-                  <DocumentArrowUpIcon
-                    aria-hidden="true"
-                    className="mx-auto h-8 w-8 text-stone-900"
-                  />
-                  <div className="mt-4 flex text-xs text-stone-400">
-                    <label
-                      htmlFor="file-upload"
-                      className="relative cursor-pointer rounded-md bg-white font-semibold text-stone-600 hover:text-stone-500"
-                    >
-                      <span>파일 선택</span>
-                      <input
-                        id="file-upload"
-                        name="file-upload"
-                        type="file"
-                        className="sr-only"
-                      />
-                    </label>
-                    <p className="pl-1 text-xs">또는 드래그앤 드랍</p>
-                  </div>
-                  <p className="text-xs leading-5 text-stone-400">최대 200MB</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
+          <FileUploadComponent />
           <SidebarSeparator />
 
           <div className="grid w-full max-w-sm items-center gap-3">
